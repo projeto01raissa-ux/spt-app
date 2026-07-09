@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import TopBar from "@/components/TopBar";
+import OverviewChart from "@/components/OverviewChart";
 
 export default async function MasterPage() {
   const supabase = createClient();
@@ -9,6 +10,10 @@ export default async function MasterPage() {
     .from("obras")
     .select("id, nome_obra, cliente, numero_relatorio, created_at, furos(id, status)")
     .order("created_at", { ascending: false });
+
+  const todosFuros = (obras ?? []).flatMap((o: any) => o.furos ?? []);
+  const concluidos = todosFuros.filter((f: any) => f.status === "concluido").length;
+  const emAndamento = todosFuros.filter((f: any) => f.status !== "concluido").length;
 
   return (
     <div className="page">
@@ -21,23 +26,19 @@ export default async function MasterPage() {
 
         <div className="grid-2" style={{ marginBottom: 20 }}>
           <StatCard label="Obras cadastradas" value={obras?.length ?? 0} />
-          <StatCard
-            label="Furos concluídos"
-            value={
-              obras?.reduce(
-                (acc, o: any) =>
-                  acc + (o.furos?.filter((f: any) => f.status === "concluido").length ?? 0),
-                0
-              ) ?? 0
-            }
-          />
+          <StatCard label="Furos concluídos" value={concluidos} />
+        </div>
+
+        <div className="card" style={{ marginBottom: 20 }}>
+          <h3 style={{ fontSize: 16, marginBottom: 8 }}>Progresso geral dos furos</h3>
+          <OverviewChart concluidos={concluidos} emAndamento={emAndamento} />
         </div>
 
         <div className="card" style={{ padding: 0 }}>
           {obras && obras.length > 0 ? (
             obras.map((obra: any, i: number) => {
               const total = obra.furos?.length ?? 0;
-              const concluidos =
+              const concluidosObra =
                 obra.furos?.filter((f: any) => f.status === "concluido").length ?? 0;
               return (
                 <Link
@@ -59,7 +60,7 @@ export default async function MasterPage() {
                     </div>
                     <div className="row">
                       <span className="badge mono">
-                        {concluidos}/{total} furos
+                        {concluidosObra}/{total} furos
                       </span>
                     </div>
                   </div>
