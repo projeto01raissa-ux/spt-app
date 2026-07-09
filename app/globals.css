@@ -1,1 +1,270 @@
+/* =========================================================
+   DESIGN TOKENS — tema "prancheta de engenharia"
+   Paleta inspirada em papel de projeto (blueprint) + cores
+   reais da legenda de litologia usada nos laudos de SPT.
+   ========================================================= */
+:root {
+  --bg: #0f2138;
+  --bg-grid: rgba(255, 255, 255, 0.035);
+  --surface: #16304c;
+  --surface-2: #1c3a5c;
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #e8eef5;
+  --text-dim: #9fb3c8;
+  --accent: #f2a93b;
+  --accent-2: #6fd6c4;
+  --danger: #e2634f;
 
+  --solo-areia: #c0392b;
+  --solo-argila: #e8c22a;
+  --solo-silte: #8d6e63;
+  --solo-pedregulho: #7f8c8d;
+
+  --radius: 10px;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+::selection {
+  background: var(--accent);
+  color: #14171a;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: rgba(15, 33, 56, 0.85);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(160deg, var(--accent), var(--solo-areia));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: #14171a;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.card + .card {
+  margin-top: 16px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.08s ease, border-color 0.15s ease;
+}
+.btn:hover {
+  border-color: var(--accent);
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #14171a;
+}
+.btn-primary:hover {
+  border-color: var(--accent);
+  filter: brightness(1.05);
+}
+.btn-danger {
+  background: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+input, select, textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+}
+.field {
+  margin-bottom: 14px;
+}
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+.data-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border);
+}
+.badge-andamento {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.badge-concluido {
+  color: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.text-dim {
+  color: var(--text-dim);
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.spread {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
