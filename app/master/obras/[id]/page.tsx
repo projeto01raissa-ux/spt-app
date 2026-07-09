@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import TopBar from "@/components/TopBar";
 import NsptChart from "@/components/NsptChart";
+import FurosComparativoChart from "@/components/FurosComparativoChart";
+import SoloChart from "@/components/SoloChart";
 
 export default async function ObraReportPage({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -12,6 +14,8 @@ export default async function ObraReportPage({ params }: { params: { id: string 
     .select("*, leituras(*)")
     .eq("obra_id", params.id)
     .order("codigo");
+
+  const todasLeituras = (furos ?? []).flatMap((f: any) => f.leituras ?? []);
 
   return (
     <div className="page">
@@ -39,7 +43,20 @@ export default async function ObraReportPage({ params }: { params: { id: string 
           </div>
         </div>
 
-        <div className="stack" style={{ marginTop: 24, gap: 16 }}>
+        {furos && furos.length > 0 && (
+          <div className="grid-2" style={{ marginTop: 20 }}>
+            <div className="card">
+              <h3 style={{ fontSize: 16, marginBottom: 8 }}>Comparativo entre furos</h3>
+              <FurosComparativoChart furos={furos} />
+            </div>
+            <div className="card">
+              <h3 style={{ fontSize: 16, marginBottom: 8 }}>Tipos de solo encontrados</h3>
+              <SoloChart leituras={todasLeituras} />
+            </div>
+          </div>
+        )}
+
+        <div className="stack" style={{ marginTop: 20, gap: 16 }}>
           {furos && furos.length > 0 ? (
             furos.map((furo: any) => (
               <div key={furo.id} className="card">
